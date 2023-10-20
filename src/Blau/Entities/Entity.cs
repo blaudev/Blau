@@ -1,8 +1,8 @@
 ﻿namespace Blau.Entities;
 
-public abstract class Entity<T>
+public abstract class Entity
 {
     protected Entity() { }
 
-    public T Id { get; private set; } = default!;
+    public int Id { get; private set; }
 }
