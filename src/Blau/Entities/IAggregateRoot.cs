@@ -1,5 +1,5 @@
 ﻿namespace Blau.Entities;
 
-public interface IAggregateRoot
+public interface IAggregateRoot : IEntity
 {
 }

@@ -1,8 +1,8 @@
 ﻿namespace Blau.Entities;
 
-public abstract class Entity(Guid id)
+public abstract class Entity<T>(T id) : IEntity
 {
-    protected Entity() : this(Guid.NewGuid()) { }
+    private Entity() : this(default!) { }
 
-    public Guid Id { get; protected set; } = id;
+    public T Id { get; protected set; } = id;
 }
