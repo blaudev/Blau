@@ -4,8 +4,7 @@ using System.Reflection;
 
 namespace Blau.Data;
 
-public class DataContext<T>(DbContextOptions<T> options) : DbContext(options)
-    where T : DbContext
+public class DataContext(DbContextOptions<DataContext> options) : DbContext(options)
 {
     // EntityFramework required constructor
     public DataContext() : this(default!) { }
@@ -14,7 +13,5 @@ public class DataContext<T>(DbContextOptions<T> options) : DbContext(options)
     {
         base.OnModelCreating(modelBuilder);
         modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
-
     }
-
 }

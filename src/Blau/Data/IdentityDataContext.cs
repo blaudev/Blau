@@ -5,8 +5,7 @@ using System.Reflection;
 
 namespace Blau.Data;
 
-public class IdentityDataContext<T>(DbContextOptions<T> options) : IdentityDbContext(options)
-    where T : IdentityDbContext
+public class IdentityDataContext(DbContextOptions<IdentityDataContext> options) : IdentityDbContext(options)
 {
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
