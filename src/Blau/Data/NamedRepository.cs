@@ -6,7 +6,7 @@ namespace Blau.Data;
 
 public class NamedRepository<TDataContext, TNamedEntity>(TDataContext context)
     : Repository<TDataContext, TNamedEntity>(context), INamedRepository<TNamedEntity>
-        where TDataContext : DataContext
+        where TDataContext : DataContext<TDataContext>
         where TNamedEntity : class, INamedEntity
 {
     public async Task<TNamedEntity> FirstByNameAsync(string name)

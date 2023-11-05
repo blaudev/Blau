@@ -4,7 +4,8 @@ using System.Reflection;
 
 namespace Blau.Data;
 
-public class DataContext(DbContextOptions<DataContext> options) : DbContext(options)
+public class DataContext<TDataContext>(DbContextOptions<TDataContext> options) : DbContext(options)
+    where TDataContext : DbContext
 {
     // EntityFramework required constructor
     public DataContext() : this(default!) { }

@@ -6,7 +6,7 @@ namespace Blau.Data;
 
 public class Repository<TDataContext, TEntity>(TDataContext context)
     : IRepository<TEntity>
-        where TDataContext : DataContext
+        where TDataContext : DataContext<TDataContext>
         where TEntity : class, IEntity
 {
     protected DbSet<TEntity> Set => context.Set<TEntity>();
