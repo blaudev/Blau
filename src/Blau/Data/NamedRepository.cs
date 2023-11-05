@@ -11,11 +11,11 @@ public class NamedRepository<TDataContext, TNamedEntity>(TDataContext context)
 {
     public async Task<TNamedEntity> FirstByNameAsync(string name)
     {
-        return await Context.Set<TNamedEntity>().FirstAsync(q => q.Name == name);
+        return await Set.FirstAsync(q => q.Name == name);
     }
 
     public async Task<TNamedEntity?> FirstOrDefaultByNameAsync(string name)
     {
-        return await Context.Set<TNamedEntity>().FirstOrDefaultAsync(q => q.Name == name);
+        return await Set.FirstOrDefaultAsync(q => q.Name == name);
     }
 }
