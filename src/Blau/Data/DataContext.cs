@@ -7,9 +7,6 @@ namespace Blau.Data;
 public class DataContext<TDataContext>(DbContextOptions<TDataContext> options) : DbContext(options)
     where TDataContext : DbContext
 {
-    // EntityFramework required constructor
-    public DataContext() : this(default!) { }
-
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
