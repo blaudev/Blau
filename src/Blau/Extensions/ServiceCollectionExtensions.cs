@@ -1,8 +1,8 @@
-﻿using Blau.UseCases;
-
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+
+using System.Reflection;
 
 namespace Blau.Extensions;
 
@@ -22,27 +22,21 @@ public static class ServiceCollectionExtensions
         var connectionString = configuration.GetConnectionString("DefaultConnection")
             ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
 
-        services.AddDbContext<TDatabaseContext>(options =>
-        {
-            options.UseNpgsql(connectionString);
-        });
-
+        services.AddDbContext<TDatabaseContext>(options => options.UseNpgsql(connectionString));
         return services;
     }
 
     public static IServiceCollection AddUseCases(this IServiceCollection services)
     {
-        var useCaseTypes = services
-            .GetType()
-            .Assembly
-            .GetTypes()
-            .Where(type => type.IsClass && type.IsAssignableTo(typeof(IUseCaseHandler)))
-            .ToList();
-
-        useCaseTypes.ForEach(useCase =>
-        {
-            services.AddScoped(typeof(IUseCaseHandler), useCase);
-        });
+        var assembly = Assembly.GetEntryAssembly() ?? throw new InvalidOperationException();
+        assembly.GetTypes()
+            .Where(x => x.IsClass && !x.IsAbstract && x.Name.EndsWith("UseCase"))
+            .Select(x => (Abstraction: x.GetInterfaces().First(q => q.Name == $"I{x.Name}"), Implementation: x))
+            .ToList()
+            .ForEach(x =>
+            {
+                services.AddScoped(x.Abstraction, x.Implementation);
+            });
 
         return services;
     }

@@ -1,16 +1,12 @@
 ﻿namespace Blau.UseCases;
 
-public interface IUseCaseHandler
-{
-}
-
-public interface IUseCaseHandler<TResponse> : IUseCaseHandler
+public interface IUseCaseHandler<TResponse>
     where TResponse : class, IUseCaseResponse
 {
     Task<TResponse> Handle();
 }
 
-public interface IUseCaseHandler<TRequest, TResponse> : IUseCaseHandler<TResponse>
+public interface IUseCaseHandler<TRequest, TResponse>
     where TRequest : class, IUseCaseRequest
     where TResponse : class, IUseCaseResponse
 {
