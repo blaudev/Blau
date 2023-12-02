@@ -1,14 +1,19 @@
 ﻿namespace Blau.UseCases;
 
-public interface IUseCaseHandler<TResponse>
-    where TResponse : class, IUseCaseResponse
+public interface IUseCaseHandler
 {
-    Task<TResponse> Handle();
+    Task<IUseCaseResult> Handle(CancellationToken cancellationToken);
 }
 
-public interface IUseCaseHandler<TRequest, TResponse>
-    where TRequest : class, IUseCaseRequest
-    where TResponse : class, IUseCaseResponse
+public interface IUseCaseHandler<TUseCaseResponse>
+    where TUseCaseResponse : class, IUseCaseResponse
 {
-    Task<TResponse> Handle(TRequest request);
+    Task<IUseCaseResult<TUseCaseResponse>> Handle(CancellationToken cancellationToken);
+}
+
+public interface IUseCaseHandler<in TUseCaseRequest, TUseCaseResponse>
+    where TUseCaseRequest : class, IUseCaseRequest
+    where TUseCaseResponse : class, IUseCaseResponse
+{
+    Task<IUseCaseResult<TUseCaseResponse>> Handle(TUseCaseRequest request, CancellationToken cancellationToken);
 }

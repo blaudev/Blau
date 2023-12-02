@@ -1,8 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System.Reflection;
+
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-
-using System.Reflection;
 
 namespace Blau.Extensions;
 
@@ -26,11 +26,11 @@ public static class ServiceCollectionExtensions
         return services;
     }
 
-    public static IServiceCollection AddUseCases(this IServiceCollection services)
+    public static IServiceCollection AddUseCaseHandlers(this IServiceCollection services)
     {
         var assembly = Assembly.GetEntryAssembly() ?? throw new InvalidOperationException();
         assembly.GetTypes()
-            .Where(x => x.IsClass && !x.IsAbstract && x.Name.EndsWith("UseCase"))
+            .Where(x => x.IsClass && !x.IsAbstract && x.Name.EndsWith("UseCaseHandler"))
             .Select(x => (Abstraction: x.GetInterfaces().First(q => q.Name == $"I{x.Name}"), Implementation: x))
             .ToList()
             .ForEach(x =>
